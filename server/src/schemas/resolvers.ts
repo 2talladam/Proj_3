@@ -1,6 +1,6 @@
 import { IResolvers } from '@graphql-tools/utils';
 import User, { UserDocument } from '../models/User.js';  
-import { BookDocument } from '../models/Workout.js';
+import { BookDocument } from '../models/Book';
 import { AuthenticationError } from '../services/auth.js';
 import { signToken } from '../services/auth.js';
 

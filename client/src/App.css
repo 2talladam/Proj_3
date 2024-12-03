@@ -1,17 +1,58 @@
+/* General styles */
 body {
-  font-family: 'Rubik', sans-serif;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #141451; 
+  color: #ffffff; 
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: 'Rubik Mono One', sans-serif;
+/* Navbar */
+nav {
+  background-color: #313186; 
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
 }
 
-.small {
-  font-weight: 300;
-  font-style: italic;
+nav a {
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+
+.container {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 1fr 3fr;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Sections */
+.workout {
+  grid-row: 2 / 3;
+  grid-column: 1 / 2;
+  background-color: #202080; 
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.api {
+  grid-row: 2 / 3;
+  grid-column: 2 / 3;
+  background-color: #202080;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.comments {
+  grid-row: 3 / 4;
+  grid-column: 1 / 3;
+  background-color: #202080;
+  border-radius: 10px;
+  padding: 20px;
 }
