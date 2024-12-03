@@ -6,3 +6,10 @@ declare namespace Express {
     };
   }
 }
+
+export interface Workout {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+}

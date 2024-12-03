@@ -1,11 +1,9 @@
 const typeDefs = `
-  type Book {
-    bookId: String!
+  type Workout {
+    id: ID!
     title: String!
-    authors: [String]
     description: String!
-    image: String
-    link: String
+    date: String!
   }
 
   type User {
@@ -25,21 +23,11 @@ const typeDefs = `
     me: User
   }
 
-  type Mutation {
-    createUser(username: String!, email: String!, password: String!): AuthPayload
-    login(email: String!, password: String!): AuthPayload
-    saveBook(bookInput: BookInput!): User
-    deleteBook(bookId: String!): User
-  }
-
-  input BookInput {
-    bookId: String!
-    title: String!
-    authors: [String!]!
-    description: String
-    image: String
-    link: String
-  }
+  Mutation: {
+    addWorkout: async (_: any, args: { title: string; description: string }) => {
+      const newWorkout = new Workout(args);
+      return await newWorkout.save();
+    }
 `;
 
 export default typeDefs;
