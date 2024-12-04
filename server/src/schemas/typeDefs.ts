@@ -1,19 +1,18 @@
 const typeDefs = `
-  type Book {
-    bookId: String!
-    title: String!
-    authors: [String]
-    description: String!
-    image: String
-    link: String
+  type Workout {
+    bodyPart: String!
+    equipment: String!
+    gifUrl: String!
+    id: String!
+    name: String
+    target: String
   }
 
   type User {
     id: ID!
     username: String!
     email: String!
-    savedBooks: [Book]
-    bookCount: Int
+    savedWorkouts: [Workout]
   }
 
   type AuthPayload {
@@ -28,17 +27,17 @@ const typeDefs = `
   type Mutation {
     createUser(username: String!, email: String!, password: String!): AuthPayload
     login(email: String!, password: String!): AuthPayload
-    saveBook(bookInput: BookInput!): User
-    deleteBook(bookId: String!): User
+    saveWorkout(workoutInput: WorkoutInput!): User
+    deleteWorkout(workoutId: String!): User
   }
 
-  input BookInput {
-    bookId: String!
-    title: String!
-    authors: [String!]!
-    description: String
-    image: String
-    link: String
+  input WorkoutInput {
+    bodyPart: String!
+    equipment: String!
+    gifUrl: String!
+    id: String!
+    name: String
+    target: String
   }
 `;
 

@@ -1,6 +1,6 @@
 import { IResolvers } from '@graphql-tools/utils';
 import User, { UserDocument } from '../models/User.js';  
-import { BookDocument } from '../models/Book';
+import { IWorkout } from '../models/Workout.js';
 import { AuthenticationError } from '../services/auth.js';
 import { signToken } from '../services/auth.js';
 
@@ -9,7 +9,7 @@ const resolvers: IResolvers = {
         me: async (_, __, { user }): Promise<UserDocument | null> => {
             if (!user) throw new AuthenticationError('You must be logged in');
             try {
-                const foundUser = await User.findById(user._id).populate('savedBooks');
+                const foundUser = await User.findById(user._id).populate('savedWorkouts');
                 if (!foundUser) {
                     throw new Error('User not found');
                 }
@@ -51,39 +51,39 @@ const resolvers: IResolvers = {
             return { token, user }; 
         },
 
-        saveBook: async (
+        saveWorkout: async (
             _: any,
-            { bookInput }: { bookInput: BookDocument },
+            { workoutInput }: { workoutInput: IWorkout },
             { user }: { user: UserDocument, req: any }
         ): Promise<UserDocument> => {
-            console.log("User in saveBook mutation:", user);
+            console.log("User in saveWorkout mutation:", user);
             if (!user) throw new AuthenticationError('You must be logged in');
 
-            user.savedBooks = user.savedBooks || []; 
-            const existingBook = user.savedBooks.some((book) => book.bookId === bookInput.bookId);
-            if (existingBook) {
-                throw new Error("Book is already saved.");
+            user.savedWorkouts = user.savedWorkouts || []; 
+            const existingWorkout = user.savedWorkouts.some((workout) => workout.id === workoutInput.id);
+            if (existingWorkout) {
+                throw new Error("Workout is already saved.");
             }
             const updatedUser = await User.findByIdAndUpdate(user._id,
-                { $addToSet: { savedBooks: bookInput } },
+                { $addToSet: { savedWorkouts: workoutInput } },
                 { new: true, runValidators: true }
-            ).populate('savedBooks');
+            ).populate('savedWorkouts');
 
             if (!updatedUser) throw new Error('User not found');
             return updatedUser;
         },
 
-        deleteBook: async (
+        deleteWorkout: async (
             _: any,
-            { bookId }: { bookId: string },
+            { workoutId }: { workoutId: string },
             { user }: { user: UserDocument, req: any }
         ): Promise<UserDocument> => {
             if (!user) throw new AuthenticationError('You must be logged in');
             const updatedUser = await User.findByIdAndUpdate(
                 user._id,
-                { $pull: { savedBooks: { bookId } } },  
+                { $pull: { savedWorkouts: { workoutId } } },  
                 { new: true }
-            ).populate('savedBooks');
+            ).populate('savedWorkouts');
 
             if (!updatedUser) throw new Error('User not found');
 
