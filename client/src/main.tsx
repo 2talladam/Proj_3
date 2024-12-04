@@ -1,8 +1,7 @@
-import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import 'bootstrap/dist/css/bootstrap.min.css'
+import ReactDOM from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
-import Home from './pages/SearchBooks';
 import SavedWorkouts from './pages/SavedWorkouts';
 import WorkoutPlanner from './pages/workout';
 
@@ -14,16 +13,12 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Home />
+        element: <WorkoutPlanner />,
       },
       {
         path: '/saved',
         element: <SavedWorkouts />
       },
-      {
-        path: '/workout',
-        element: <WorkoutPlanner />
-      },                                                    
     ]
   }
 ]);
