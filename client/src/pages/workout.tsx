@@ -12,7 +12,8 @@ const WorkoutPlanner: React.FC = () => {
   const fetchWorkouts = async (bodyPart: string) => {
     const apiKey = 'YOUR_RAPIDAPI_KEY';
     try {
-      const response = await fetch(`https://yourapiendpoint.com/workouts?bodyPart=${bodyPart}`, {
+      const response = await fetch(`
+https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}?limit=10&offset=0`, {
         method: 'GET',
         headers: {
           'x-rapidapi-key': '0bd3a00f1emsh6b870611819c60dp131924jsn2fd109f2a6e1',
@@ -41,6 +42,7 @@ const WorkoutPlanner: React.FC = () => {
         <button style={{ position: 'absolute', left: '0px', top: '200px' }} onClick={() => fetchWorkouts('Lower Arms')}>Lower Arms</button>
         <button style={{ position: 'absolute', right: '0px', top: '200px' }} onClick={() => fetchWorkouts('Lower Legs')}>Lower Legs</button>
         <button style={{ position: 'absolute', left: '0px', top: '300px' }} onClick={() => fetchWorkouts('Upper Legs')}>Upper Legs</button>
+        
       </div>
       <div id="workout-list">
         {workouts.map(workout => (
