@@ -7,9 +7,7 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { Routes, Route } from 'react-router-dom';
-
 import AppNavbar from './components/Navbar';
-import Home from './pages/SearchBooks';
 import WorkoutPlanner from './pages/workout';
 import SavedWorkouts from './pages/SavedWorkouts';
 
@@ -40,9 +38,8 @@ function App() {
       <>
         <AppNavbar />
         <Routes>
-          <Route path='/' element={<Home />} />
+          <Route path='/' element={<WorkoutPlanner />} />
           <Route path='/saved' element={<SavedWorkouts />} />
-          <Route path='/workout' element={<WorkoutPlanner />} />
         </Routes>
       </>
     </ApolloProvider>

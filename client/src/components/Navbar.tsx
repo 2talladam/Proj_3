@@ -21,16 +21,13 @@ const AppNavbar = () => {
           <Navbar.Collapse id='navbar' className='d-flex flex-row-reverse'>
             <Nav className='ml-auto d-flex'>
               <Nav.Link as={Link} to='/'>
-                Home
-              </Nav.Link>
-              <Nav.Link as={Link} to='/workout'>
                 Workout Planner
               </Nav.Link>
               {/* if user is logged in show saved books and logout */}
               {Auth.loggedIn() ? (
                 <>
                   <Nav.Link as={Link} to='/saved'>
-                    Check your workouts
+                    Saved Workouts
                   </Nav.Link>
                   <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
                 </>

@@ -45,13 +45,13 @@ export const login = async (req: Request, res: Response) => {
   return res.json({ token, user });
 };
 
-// save a book to a user's `savedBooks` field by adding it to the set (to prevent duplicates)
+// save a workout to a user's `savedWorkouts` field by adding it to the set (to prevent duplicates)
 // user comes from `req.user` created in the auth middleware function
-export const saveBook = async (req: Request, res: Response) => {
+export const saveWorkout = async (req: Request, res: Response) => {
   try {
     const updatedUser = await User.findOneAndUpdate(
       { _id: req.user._id },
-      { $addToSet: { savedBooks: req.body } },
+      { $addToSet: { savedWorkouts: req.body } },
       { new: true, runValidators: true }
     );
     return res.json(updatedUser);
@@ -61,11 +61,11 @@ export const saveBook = async (req: Request, res: Response) => {
   }
 };
 
-// remove a book from `savedBooks`
-export const deleteBook = async (req: Request, res: Response) => {
+// remove a workout from `savedWorkouts`
+export const deleteWorkout = async (req: Request, res: Response) => {
   const updatedUser = await User.findOneAndUpdate(
     { _id: req.user._id },
-    { $pull: { savedBooks: { bookId: req.params.bookId } } },
+    { $pull: { savedWorkouts: { workoutId: req.params.workoutId } } },
     { new: true }
   );
   if (!updatedUser) {
