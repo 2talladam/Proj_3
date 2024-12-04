@@ -56,3 +56,121 @@ nav a {
   border-radius: 10px;
   padding: 20px;
 }
+
+/* Center the body diagram in the middle of the page */
+#body-diagram-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Add other CSS styles incrementally */
+
+.neck-line {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background-color: black;
+  top: 70px; /* 20px (original) + 50px */
+  left: 0px; /* 40px from the left */
+  width: 100px; /* Horizontal line length */
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.neck-button {
+  position: absolute;
+  left: -55px; /* Move 40px to the left */
+  top: 55px; /* Move 50px down */
+  transition: background-color 0.3s ease; /* Smooth transition */
+  color: white;
+  background-color: black;
+}
+
+.neck-button:hover {
+  background-color: red;
+}
+
+.neck-button:hover + .neck-line {
+  background-color: red;
+}
+
+.upper-arms-line {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background-color: black;
+  top: 100px; /* 20px (original) + 50px */
+  left: 140px; /* 40px from the left */
+  width: 100px; /* Horizontal line length */
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+.upper-arms-button {
+  position: absolute;
+  left: 200px; /* Move 40px to the left */
+  top: 90px; /* Move 50px down */
+  transition: background-color 0.3s ease; /* Smooth transition */
+  color: white;
+  background-color: black;
+}
+.upper-arms-button:hover {
+  background-color: orange;
+}
+
+.upper-arms-button:hover + .upper-arms-line {
+  background-color: orange;
+}
+/* Add additional line styles here */
+.chest-line {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background-color: black;
+  top: 125px; /* 20px (original) + 50px */
+  left: -25px; /* 40px from the left */
+  width: 125px; /* Horizontal line length */
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.chest-button {
+  position: absolute;
+  left: -80px; /* Move 40px to the left */
+  top: 110px; /* Move 50px down */
+  transition: background-color 0.3s ease; /* Smooth transition */
+  background-color: black;
+  color:white
+}
+
+.chest-button:hover {
+  background-color: yellow;
+  color:black;
+}
+
+.chest-button:hover + .chest-line {
+  background-color: yellow;
+}
+.lower-arms-line {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background-color: black;
+  top: 200px; /* 20px (original) + 50px */
+  left: 160px; /* 40px from the left */
+  width: 50px; /* Horizontal line length */
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+.lower-arms-button {
+  position: absolute;
+  left: 200px; /* Move 40px to the left */
+  top: 180px; /* Move 50px down */
+  transition: background-color 0.3s ease; /* Smooth transition */
+  color: white;
+  background-color: black;
+}
+.lower-arms-button:hover {
+  background-color: green;
+}
+
+.lower-arms-button:hover + .lower-arms-line {
+  background-color: green;
+}

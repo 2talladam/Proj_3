@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import '../App.css';
 type Workout = {
   id: number;
   name: string;
@@ -10,12 +10,12 @@ const WorkoutPlanner: React.FC = () => {
   const [selectedWorkouts, setSelectedWorkouts] = useState<Workout[]>([]);
 
   const fetchWorkouts = async (bodyPart: string) => {
-    const apiKey = 'YOUR_RAPIDAPI_KEY';
+    const apiKey = 'd9676c9b30msh91e5c8ffd5cac78p15a938jsn21cfe7eaceb2';
     try {
-      const response = await fetch(`https://yourapiendpoint.com/workouts?bodyPart=${bodyPart}`, {
+      const response = await fetch(`https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}?limit=10&offset=0`, {
         method: 'GET',
         headers: {
-          'x-rapidapi-key': '0bd3a00f1emsh6b870611819c60dp131924jsn2fd109f2a6e1',
+          'x-rapidapi-key': 'd9676c9b30msh91e5c8ffd5cac78p15a938jsn21cfe7eaceb2',
 		'x-rapidapi-host': 'exercisedb.p.rapidapi.com'
         }
       });
@@ -32,15 +32,24 @@ const WorkoutPlanner: React.FC = () => {
 
   return (
     <div>
-      <div id="body-diagram" style={{ position: 'relative', width: '200px', height: '400px' }}>
-        <img src="" alt="Body Diagram" style={{ width: '100%', height: 'auto' }} />
+      <div id="body-diagram-container">
+     <div id="body-diagram" style={{ position: 'relative', width: '200px', height: '400px' }}>
+      <img src="/Anatomical_Position.png" alt="Body Diagram" style={{ width: '100%', height: 'auto' }} />
+       <img src="./client/public/Anatomical_Position.png" alt="Body Diagram" style={{ width: '100%', height: 'auto' }} />
         {/* Add buttons around the image */}
-        <button style={{ position: 'absolute', left: '0px', top: '20px' }} onClick={() => fetchWorkouts('neck')}>Neck Workouts</button>
-        <button style={{ position: 'absolute', left: '0px', top: '100px' }} onClick={() => fetchWorkouts('chest')}>Chest</button>
-        <button style={{ position: 'absolute', right: '0px', top: '100px' }} onClick={() => fetchWorkouts('Upper Arm')}>Upper Arms</button>
-        <button style={{ position: 'absolute', left: '0px', top: '200px' }} onClick={() => fetchWorkouts('Lower Arms')}>Lower Arms</button>
-        <button style={{ position: 'absolute', right: '0px', top: '200px' }} onClick={() => fetchWorkouts('Lower Legs')}>Lower Legs</button>
-        <button style={{ position: 'absolute', left: '0px', top: '300px' }} onClick={() => fetchWorkouts('Upper Legs')}>Upper Legs</button>
+        <div className="line neck-line"></div>
+        <div className="line chest-line"></div>
+        <div className="line upper-arms-line"></div>
+        <div className="line lower-arms-line"></div>
+        <div className="line upper-legs-line"></div>
+        <div className="line lower-legs-line"></div>
+        <button className="neck-button" onClick={() => fetchWorkouts('neck')}>Neck</button>
+        <button className="upper-arms-button"onClick={() => fetchWorkouts('upper arms')}>Upper Arms</button>
+        <button className="chest-button"onClick={() => fetchWorkouts('chest')}>Chest</button>
+        <button className="lower-arms-button"onClick={() => fetchWorkouts('lower arms')}>Lower Arms</button>
+        <button className="lower-legs-button"onClick={() => fetchWorkouts('lower legs')}>Lower legs</button>
+        <button className="upper-legs-button"onClick={() => fetchWorkouts('upper legs')}>upper legs</button>
+      </div>
       </div>
       <div id="workout-list">
         {workouts.map(workout => (
