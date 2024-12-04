@@ -35,20 +35,18 @@ const WorkoutPlanner: React.FC = () => {
       <div id="body-diagram-container">
      <div id="body-diagram" style={{ position: 'relative', width: '200px', height: '400px' }}>
       <img src="/Anatomical_Position.png" alt="Body Diagram" style={{ width: '100%', height: 'auto' }} />
-       <img src="./client/public/Anatomical_Position.png" alt="Body Diagram" style={{ width: '100%', height: 'auto' }} />
-        {/* Add buttons around the image */}
-        <div className="line neck-line"></div>
-        <div className="line chest-line"></div>
-        <div className="line upper-arms-line"></div>
-        <div className="line lower-arms-line"></div>
-        <div className="line upper-legs-line"></div>
-        <div className="line lower-legs-line"></div>
         <button className="neck-button" onClick={() => fetchWorkouts('neck')}>Neck</button>
+        <div className="line neck-line"></div>
         <button className="upper-arms-button"onClick={() => fetchWorkouts('upper arms')}>Upper Arms</button>
+        <div className="line upper-arms-line"></div>
         <button className="chest-button"onClick={() => fetchWorkouts('chest')}>Chest</button>
+        <div className="line chest-line"></div>
         <button className="lower-arms-button"onClick={() => fetchWorkouts('lower arms')}>Lower Arms</button>
+        <div className="line lower-arms-line"></div>
         <button className="lower-legs-button"onClick={() => fetchWorkouts('lower legs')}>Lower legs</button>
-        <button className="upper-legs-button"onClick={() => fetchWorkouts('upper legs')}>upper legs</button>
+        <div className="line lower-legs-line"></div>
+        <button className="upper-legs-button"onClick={() => fetchWorkouts('upper legs')}>Upper Legs</button>
+        <div className="line upper-legs-line"></div>
       </div>
       </div>
       <div id="workout-list">
