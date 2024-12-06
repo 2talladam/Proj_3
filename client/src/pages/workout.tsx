@@ -12,6 +12,8 @@ const WorkoutPlanner: React.FC = () => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [selectedWorkouts, setSelectedWorkouts] = useState<Workout[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // Modal for available workouts
+  const [isSelectedModalOpen, setIsSelectedModalOpen] = useState<boolean>(false); // Modal for selected workouts
 
   const fetchWorkouts = async (bodyPart: string) => {
     try {
@@ -22,6 +24,7 @@ const WorkoutPlanner: React.FC = () => {
       const data = await response.json();
       setWorkouts(data);
       setError(null); // Clear any previous errors
+      setIsModalOpen(true); // Open modal after fetching workouts
     } catch (err: any) {
       console.error('Error fetching workouts:', err);
       setError(err.message || 'An unknown error occurred.');
@@ -37,12 +40,14 @@ const WorkoutPlanner: React.FC = () => {
     }
   };
 
+  const deleteWorkout = (id: number) => {
+    setSelectedWorkouts(prevWorkouts => prevWorkouts.filter(workout => workout.id !== id));
+  };
+
   const updateSets = (id: number, change: number) => {
     setSelectedWorkouts(prevWorkouts =>
       prevWorkouts.map(workout =>
-        workout.id === id
-          ? { ...workout, sets: Math.max(1, workout.sets + change) } // Minimum 1 set
-          : workout
+        workout.id === id ? { ...workout, sets: workout.sets + change } : workout
       )
     );
   };
@@ -55,10 +60,12 @@ const WorkoutPlanner: React.FC = () => {
     );
   };
 
-  const deleteWorkout = (id: number) => {
-    setSelectedWorkouts(prevWorkouts =>
-      prevWorkouts.filter(workout => workout.id !== id)
-    );
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const closeSelectedModal = () => {
+    setIsSelectedModalOpen(false);
   };
 
   return (
@@ -83,48 +90,85 @@ const WorkoutPlanner: React.FC = () => {
 
       {error && <div className="error">{error}</div>}
 
-      <div id="workout-list">
-        <h3>Workouts</h3>
-        {workouts.map(workout => (
-          <div key={workout.id}>
-            {workout.name}
-            <button onClick={() => addToWorkout(workout)}>Add to Workout</button>
-          </div>
-        ))}
-      </div>
+      {/* Modal for available workouts */}
+      {isModalOpen && (
+        <div>
+            <div className="modal-overlay" onClick={closeModal}></div>
 
-      <div id="selected-workouts">
-        <h3>Selected Workouts</h3>
-        {selectedWorkouts.map(workout => (
-          <div key={workout.id} style={{ marginBottom: '10px' }}>
-            <div>
-              {workout.name} (Sets: {workout.sets}, Reps: {workout.reps})
-              <button style={{ marginLeft: '10px', color: 'red' }} onClick={() => deleteWorkout(workout.id)}>
-                Delete
-              </button>
-            </div>
-            <div>
-              <span>Sets: </span>
-              <button onClick={() => updateSets(workout.id, -1)}>-</button>
-              <span style={{ margin: '0 10px' }}>{workout.sets}</span>
-              <button onClick={() => updateSets(workout.id, 1)}>+</button>
-            </div>
-            <div>
-              <span>Reps: </span>
-              <select
-                value={workout.reps}
-                onChange={e => updateReps(workout.id, parseInt(e.target.value))}
-              >
-                {Array.from({ length: 20 }, (_, i) => (i + 1) * 5).map(value => (
-                  <option key={value} value={value}>
-                    {value}
-                  </option>
-                ))}
-              </select>
-            </div>
+        <div className="modal2">
+         
+          <div className="modal2-content">
+            <button className="close-button2" onClick={closeModal}>X</button>
+            
+            <h3>Workouts</h3>
+            {workouts.length > 0 ? (
+              workouts.map(workout => (
+                <div key={workout.id}>
+                  {workout.name}
+                  <button
+                    className="add-to-workout-btn"
+                    onClick={() => {
+                      addToWorkout(workout);
+                      closeModal();
+                    }}
+                  >
+                    Add to Workout
+                  </button>
+                </div>
+              ))
+            ) : (
+              <p>No workouts available for this body part.</p>
+            )}
           </div>
-        ))}
-      </div>
+        </div>
+        </div>
+      )}
+
+      {/* Button to open the Selected Workouts Modal */}
+      <button className= "selected-workouts-button" onClick={() => setIsSelectedModalOpen(true)}>View Selected Workouts</button>
+
+      {/* Modal for selected workouts */}
+      {isSelectedModalOpen && (
+        <div className="modal2">
+          <div className="modal2-content">
+            <button className="close-button2" onClick={closeSelectedModal}>X</button>
+            <h3>Selected Workouts</h3>
+            {selectedWorkouts.length > 0 ? (
+              selectedWorkouts.map(workout => (
+                <div key={workout.id} style={{ marginBottom: '10px' }}>
+                  <div>
+                    {workout.name} (Sets: {workout.sets}, Reps: {workout.reps})
+                    <button style={{ marginLeft: '10px', color: 'red' }} onClick={() => deleteWorkout(workout.id)}>
+                      Delete
+                    </button>
+                  </div>
+                  <div>
+                    <span>Sets: </span>
+                    <button onClick={() => updateSets(workout.id, -1)}>-</button>
+                    <span style={{ margin: '0 10px' }}>{workout.sets}</span>
+                    <button onClick={() => updateSets(workout.id, 1)}>+</button>
+                  </div>
+                  <div>
+                    <span>Reps: </span>
+                    <select
+                      value={workout.reps}
+                      onChange={e => updateReps(workout.id, parseInt(e.target.value))}
+                    >
+                      {Array.from({ length: 20 }, (_, i) => (i + 1) * 5).map(value => (
+                        <option key={value} value={value}>
+                          {value}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p>No selected workouts yet.</p>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
