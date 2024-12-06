@@ -8,7 +8,7 @@ body {
 }
 
 /* Navbar */
-nav {
+#navbar {
   background-color: #313186; 
   padding: 10px;
   display: flex;
@@ -222,4 +222,29 @@ nav a {
 }
 .lower-legs-button:hover{
   background-color: purple;
+}
+.selected-workouts {
+  position: absolute !important; 
+  top: 20px; /* Adjust spacing from the top */
+  left: 20px; /* Adjust spacing from the left */
+  background-color: #ffffff; /* White background */
+  color: #000000; /* Black text color */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  padding: 15px; /* Add padding inside the box */
+  width: 200px; /* Define a fixed width */
+  height: auto; /* Allow dynamic height based on content */
+  overflow-y: auto; /* Add scrollbar if content overflows */
+  z-index: 100; /* Ensure it appears above other elements */
+}
+
+.selected-workouts h3 {
+  margin-top: 0 important!;
+  font-size: 1.2rem;
+  color: #313186; 
+}
+
+.selected-workouts div {
+  margin-bottom: 10px; 
+  font-size: 0.9rem;
 }
