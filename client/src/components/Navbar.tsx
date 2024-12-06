@@ -20,9 +20,7 @@ const AppNavbar = () => {
           <Navbar.Toggle aria-controls='navbar' />
           <Navbar.Collapse className='d-flex flex-row-reverse'>
             <Nav className='ml-auto d-flex'>
-              <Nav.Link as={Link} to='/'>
-                Workout Planner
-              </Nav.Link>
+          
               {/* if user is logged in show saved books and logout */}
               {Auth.loggedIn() ? (
                 <>
