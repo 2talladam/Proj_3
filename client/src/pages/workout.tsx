@@ -4,6 +4,8 @@ import '../App.css';
 type Workout = {
   id: number;
   name: string;
+  sets: number;
+  reps: number;
 };
 
 const WorkoutPlanner: React.FC = () => {
@@ -14,7 +16,7 @@ const WorkoutPlanner: React.FC = () => {
 
   const fetchWorkouts = async (bodyPart: string) => {
     try {
-      const response = await fetch(`/api/workouts/exercises/${bodyPart}`); // Connects to your backend
+      const response = await fetch(`/api/workouts/exercises/${bodyPart}`);
       if (!response.ok) {
         throw new Error(`Error fetching workouts: ${response.status}`);
       }
@@ -30,7 +32,10 @@ const WorkoutPlanner: React.FC = () => {
 
   const addToWorkout = (workout: Workout) => {
     if (!selectedWorkouts.find(w => w.id === workout.id)) {
-      setSelectedWorkouts(prevWorkouts => [...prevWorkouts, workout]);
+      setSelectedWorkouts(prevWorkouts => [
+        ...prevWorkouts,
+        { ...workout, sets: 1, reps: 5 }, // Default sets and reps
+      ]);
     }
   };
 
@@ -88,7 +93,33 @@ const WorkoutPlanner: React.FC = () => {
       <div id="selected-workouts">
         <h3>Selected Workouts</h3>
         {selectedWorkouts.map(workout => (
-          <div key={workout.id}>{workout.name}</div>
+          <div key={workout.id} style={{ marginBottom: '10px' }}>
+            <div>
+              {workout.name} (Sets: {workout.sets}, Reps: {workout.reps})
+              <button style={{ marginLeft: '10px', color: 'red' }} onClick={() => deleteWorkout(workout.id)}>
+                Delete
+              </button>
+            </div>
+            <div>
+              <span>Sets: </span>
+              <button onClick={() => updateSets(workout.id, -1)}>-</button>
+              <span style={{ margin: '0 10px' }}>{workout.sets}</span>
+              <button onClick={() => updateSets(workout.id, 1)}>+</button>
+            </div>
+            <div>
+              <span>Reps: </span>
+              <select
+                value={workout.reps}
+                onChange={e => updateReps(workout.id, parseInt(e.target.value))}
+              >
+                {Array.from({ length: 20 }, (_, i) => (i + 1) * 5).map(value => (
+                  <option key={value} value={value}>
+                    {value}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
         ))}
       </div>
     </div>

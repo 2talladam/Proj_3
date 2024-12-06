@@ -232,14 +232,14 @@ nav a {
   border-radius: 10px; /* Rounded corners */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
   padding: 15px; /* Add padding inside the box */
-  width: 200px; /* Define a fixed width */
+  width: 200px !important; /* Define a fixed width */
   height: auto; /* Allow dynamic height based on content */
   overflow-y: auto; /* Add scrollbar if content overflows */
   z-index: 100; /* Ensure it appears above other elements */
 }
 
 .selected-workouts h3 {
-  margin-top: 0 important!;
+  margin-top: 0 !important;
   font-size: 1.2rem;
   color: #313186; 
 }
