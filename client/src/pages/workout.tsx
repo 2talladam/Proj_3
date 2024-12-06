@@ -10,6 +10,7 @@ const WorkoutPlanner: React.FC = () => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [selectedWorkouts, setSelectedWorkouts] = useState<Workout[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const fetchWorkouts = async (bodyPart: string) => {
     try {
@@ -20,6 +21,7 @@ const WorkoutPlanner: React.FC = () => {
       const data = await response.json();
       setWorkouts(data);
       setError(null); // Clear any previous errors
+      setIsModalOpen(true); // Open modal after fetching workouts
     } catch (err: any) {
       console.error('Error fetching workouts:', err);
       setError(err.message || 'An unknown error occurred.');
@@ -30,6 +32,10 @@ const WorkoutPlanner: React.FC = () => {
     if (!selectedWorkouts.find(w => w.id === workout.id)) {
       setSelectedWorkouts(prevWorkouts => [...prevWorkouts, workout]);
     }
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -54,15 +60,30 @@ const WorkoutPlanner: React.FC = () => {
 
       {error && <div className="error">{error}</div>}
 
-      <div id="workout-list">
-        <h3>Workouts</h3>
-        {workouts.map(workout => (
-          <div key={workout.id}>
-            {workout.name}
-            <button onClick={() => addToWorkout(workout)}>Add to Workout</button>
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="modal2">
+          <div className="modal2-content">
+            <button className="close-button2" onClick={closeModal}>X</button>
+            <h3>Workouts</h3>
+            {workouts.length > 0 ? (
+              workouts.map(workout => (
+                <div key={workout.id}>
+                  {workout.name}
+                  <button onClick={() => {
+                    addToWorkout(workout);
+                    closeModal();
+                  }}>
+                    Add to Workout
+                  </button>
+                </div>
+              ))
+            ) : (
+              <p>No workouts available for this body part.</p>
+            )}
           </div>
-        ))}
-      </div>
+        </div>
+      )}
 
       <div id="selected-workouts">
         <h3>Selected Workouts</h3>
