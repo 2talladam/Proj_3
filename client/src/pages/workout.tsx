@@ -12,8 +12,9 @@ const WorkoutPlanner: React.FC = () => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [selectedWorkouts, setSelectedWorkouts] = useState<Workout[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // Modal for available workouts
-  const [isSelectedModalOpen, setIsSelectedModalOpen] = useState<boolean>(false); // Modal for selected workouts
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); 
+  const [isSelectedModalOpen, setIsSelectedModalOpen] = useState<boolean>(false); 
+  const [searchTerm, setSearchTerm] = useState<string>(''); 
 
   const fetchWorkouts = async (bodyPart: string) => {
     try {
@@ -22,12 +23,32 @@ const WorkoutPlanner: React.FC = () => {
         throw new Error(`Error fetching workouts: ${response.status}`);
       }
       const data = await response.json();
-      setWorkouts(data);
-      setError(null); // Clear any previous errors
-      setIsModalOpen(true); // Open modal after fetching workouts
+
+      if (data.length === 0) {
+        setError(null);
+        setIsModalOpen(true);
+        setWorkouts([]);
+      } else {
+        setWorkouts(data);
+        setError(null);
+        setIsModalOpen(true);
+      }
     } catch (err: any) {
       console.error('Error fetching workouts:', err);
       setError(err.message || 'An unknown error occurred.');
+      setWorkouts([]);
+      setIsModalOpen(true);
+    }
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault(); 
+    if (searchTerm.trim()) {
+      fetchWorkouts(searchTerm.trim()); 
     }
   };
 
@@ -35,7 +56,7 @@ const WorkoutPlanner: React.FC = () => {
     if (!selectedWorkouts.find(w => w.id === workout.id)) {
       setSelectedWorkouts(prevWorkouts => [
         ...prevWorkouts,
-        { ...workout, sets: 1, reps: 5 }, // Default sets and reps
+        { ...workout, sets: 1, reps: 5 }, 
       ]);
     }
   };
@@ -88,46 +109,59 @@ const WorkoutPlanner: React.FC = () => {
         </div>
       </div>
 
+      <div className='caption-container'>
+        <p>Can't find the body part you're wanting to workout? Search here instead:</p> 
+      </div>
+
+      <div className="search-bar-container">
+        <form onSubmit={handleSearchSubmit} className="search-form">
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            placeholder="Search for body part..."
+            className="search-bar"
+          />
+          <button type="submit" className="search-button">Search</button>
+        </form>
+      </div>
+
       {error && <div className="error">{error}</div>}
 
-      {/* Modal for available workouts */}
       {isModalOpen && (
         <div>
-            <div className="modal-overlay" onClick={closeModal}></div>
-
-        <div className="modal2">
-         
-          <div className="modal2-content">
-            <button className="close-button2" onClick={closeModal}>X</button>
-            
-            <h3>Workouts</h3>
-            {workouts.length > 0 ? (
-              workouts.map(workout => (
-                <div key={workout.id}>
-                  {workout.name}
-                  <button
-                    className="add-to-workout-btn"
-                    onClick={() => {
-                      addToWorkout(workout);
-                      closeModal();
-                    }}
-                  >
-                    Add to Workout
-                  </button>
-                </div>
-              ))
-            ) : (
-              <p>No workouts available for this body part.</p>
-            )}
+          <div className="modal-overlay" onClick={closeModal}></div>
+          <div className="modal2">
+            <div className="modal2-content">
+              <button className="close-button2" onClick={closeModal}>X</button>
+              <h3>Workouts</h3>
+              {workouts.length > 0 ? (
+                workouts.map(workout => (
+                  <div key={workout.id}>
+                    {workout.name}
+                    <button
+                      className="add-to-workout-btn"
+                      onClick={() => {
+                        addToWorkout(workout);
+                        closeModal();
+                      }}
+                    >
+                      Add to Workout
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <p>Sorry, no exercises for this body part yet.</p>
+              )}
+            </div>
           </div>
-        </div>
         </div>
       )}
 
-      {/* Button to open the Selected Workouts Modal */}
-      <button className= "selected-workouts-button" onClick={() => setIsSelectedModalOpen(true)}>View Selected Workouts</button>
+      <button className="selected-workouts-button" onClick={() => setIsSelectedModalOpen(true)}>
+        View Selected Workouts
+      </button>
 
-      {/* Modal for selected workouts */}
       {isSelectedModalOpen && (
         <div className="modal2">
           <div className="modal2-content">
