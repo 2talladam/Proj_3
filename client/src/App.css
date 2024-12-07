@@ -288,10 +288,55 @@ nav a {
   display: flex;
   flex-direction: column;
 }
+.search-bar-container {
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
+  position: absolute;
+  top: 780px; /* Adjust this value to move it higher or lower */
+  width: 100%;
+  z-index: 1; /* Ensures it's above other elements */
+}
+.caption-container{
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
+  position: absolute;
+  top: 755px; /* Adjust this value to move it higher or lower */
+  width: 100%;
+  z-index: 1; /* Ensures it's above other elements */
+}
+.search-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.search-bar {
+  padding: 10px;
+  margin-right: 10px;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+  width: 200px;
+}
+
+.search-button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #57BC90;
+  color: white;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.search-button:hover {
+  background-color: #36755a;
+}
 
   .close-button2 {
     align-self: flex-end;
-    color: black;
+    color: #012e29;
     border: none;
     cursor: pointer;
     font-size: 1.2rem;
@@ -332,6 +377,6 @@ nav a {
 
 }
 
-.selected-workouts-button button:hover {
+.selected-workouts-button:hover {
   background-color: #36755a;
 }
