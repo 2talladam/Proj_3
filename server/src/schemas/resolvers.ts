@@ -73,22 +73,27 @@ const resolvers: IResolvers = {
             return updatedUser;
         },
 
-        deleteWorkout: async (
-            _: any,
-            { workoutId }: { workoutId: string },
-            { user }: { user: UserDocument, req: any }
-        ): Promise<UserDocument> => {
-            if (!user) throw new AuthenticationError('You must be logged in');
+        deleteWorkout: async (_: any, { id }: { id: string }, context: any) => {
+            if (!context.user) {
+              throw new Error("Not authenticated");
+            }
+          
+            // Pull the workout by its internal MongoDB `_id`
             const updatedUser = await User.findByIdAndUpdate(
-                user._id,
-                { $pull: { savedWorkouts: { workoutId } } },  
-                { new: true }
-            ).populate('savedWorkouts');
-
-            if (!updatedUser) throw new Error('User not found');
-
+              context.user.id,
+              {
+                $pull: { savedWorkouts: { _id: id } }, 
+              },
+              { new: true }
+            );
+          
+            if (!updatedUser) {
+              throw new Error("Workout not found");
+            }
+          
             return updatedUser;
-        },
+          }
+          
     },
 };
 

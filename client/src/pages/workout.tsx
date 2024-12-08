@@ -1,15 +1,23 @@
 import React, { useState } from 'react';
 import '../App.css';
+import { useMutation } from '@apollo/client'; 
+import { SAVE_WORKOUT } from '../utils/mutations'; 
+import { savedWorkoutIds, getSavedWorkoutIds } from '../utils/localStorage';
+import AuthService from '../utils/auth'; 
 
 type Workout = {
-  id: number;
+  id: string;
   name: string;
+  bodyPart: string;
+  equipment: string;
+  gifUrl: string;
 };
 
 const WorkoutPlanner: React.FC = () => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [selectedWorkouts, setSelectedWorkouts] = useState<Workout[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [saveWorkout] = useMutation(SAVE_WORKOUT);
 
   const fetchWorkouts = async (bodyPart: string) => {
     try {
@@ -27,8 +35,28 @@ const WorkoutPlanner: React.FC = () => {
   };
 
   const addToWorkout = (workout: Workout) => {
-    if (!selectedWorkouts.find(w => w.id === workout.id)) {
-      setSelectedWorkouts(prevWorkouts => [...prevWorkouts, workout]);
+    if (!selectedWorkouts.find((w) => w.id === workout.id)) {
+      setSelectedWorkouts((prevWorkouts) => [...prevWorkouts, workout]);
+    }
+  };
+
+  const handleSaveWorkout = async (workoutId: string) => { 
+    const workoutToSave: Workout = selectedWorkouts.find((workout: Workout) => workout.id === workoutId)!;
+    console.log(workoutToSave);
+    const token = AuthService.loggedIn() ? AuthService.getToken() : null;
+    if (!token) {
+      return false;
+    }
+    try {
+      const parsedWorkoutToSave = {id:workoutToSave.id, name:workoutToSave.name, bodyPart:workoutToSave.bodyPart, equipment:workoutToSave.equipment, gifUrl:workoutToSave.gifUrl}
+      await saveWorkout({
+        variables: { workoutInput: { ...parsedWorkoutToSave } },
+      });
+  
+      const saveWorkoutIds = getSavedWorkoutIds();
+      savedWorkoutIds([...saveWorkoutIds, workoutToSave.id]);
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -56,7 +84,7 @@ const WorkoutPlanner: React.FC = () => {
 
       <div id="workout-list">
         <h3>Workouts</h3>
-        {workouts.map(workout => (
+        {workouts.map((workout) => (
           <div key={workout.id}>
             {workout.name}
             <button onClick={() => addToWorkout(workout)}>Add to Workout</button>
@@ -66,8 +94,11 @@ const WorkoutPlanner: React.FC = () => {
 
       <div id="selected-workouts">
         <h3>Selected Workouts</h3>
-        {selectedWorkouts.map(workout => (
-          <div key={workout.id}>{workout.name}</div>
+        {selectedWorkouts.map((workout) => (
+          <div key={workout.id}>
+            {workout.name}
+            <button onClick={() => handleSaveWorkout(workout.id)}>Save Workout</button>
+          </div>
         ))}
       </div>
     </div>
