@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
 import SignUpForm from './SignupForm';
 import LoginForm from './LoginForm';
-import WorkoutPlanner from '../pages/workout';
 import Auth from '../utils/auth';
 
 const AppNavbar = () => {
@@ -20,9 +19,7 @@ const AppNavbar = () => {
           <Navbar.Toggle aria-controls='navbar' />
           <Navbar.Collapse className='d-flex flex-row-reverse'>
             <Nav className='ml-auto d-flex'>
-              <Nav.Link as={Link} to='/'>
-                Workout Planner
-              </Nav.Link>
+          
               {/* if user is logged in show saved books and logout */}
               {Auth.loggedIn() ? (
                 <>

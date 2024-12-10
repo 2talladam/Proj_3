@@ -11,6 +11,8 @@ type Workout = {
   bodyPart: string;
   equipment: string;
   gifUrl: string;
+  sets: number;
+  reps: number;
 };
 
 const WorkoutPlanner: React.FC = () => {
@@ -18,27 +20,53 @@ const WorkoutPlanner: React.FC = () => {
   const [selectedWorkouts, setSelectedWorkouts] = useState<Workout[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [saveWorkout] = useMutation(SAVE_WORKOUT);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); 
+  const [isSelectedModalOpen, setIsSelectedModalOpen] = useState<boolean>(false); 
+  const [searchTerm, setSearchTerm] = useState<string>(''); 
 
   const fetchWorkouts = async (bodyPart: string) => {
     try {
-      const response = await fetch(`/api/workouts/exercises/${bodyPart}`); // Connects to your backend
+      const response = await fetch(`/api/workouts/exercises/${bodyPart}`);
       if (!response.ok) {
         throw new Error(`Error fetching workouts: ${response.status}`);
       }
       const data = await response.json();
-      setWorkouts(data);
-      setError(null); // Clear any previous errors
+
+      if (data.length === 0) {
+        setError(null);
+        setIsModalOpen(true);
+        setWorkouts([]);
+      } else {
+        setWorkouts(data);
+        setError(null);
+        setIsModalOpen(true);
+      }
     } catch (err: any) {
       console.error('Error fetching workouts:', err);
       setError(err.message || 'An unknown error occurred.');
+      setWorkouts([]);
+      setIsModalOpen(true);
+    }
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault(); 
+    if (searchTerm.trim()) {
+      fetchWorkouts(searchTerm.trim()); 
     }
   };
 
   const addToWorkout = (workout: Workout) => {
+
     if (!selectedWorkouts.find((w) => w.id === workout.id)) {
-      setSelectedWorkouts((prevWorkouts) => [...prevWorkouts, workout]);
-    }
-  };
+      setSelectedWorkouts(prevWorkouts => [
+        ...prevWorkouts,
+        { ...workout, sets: 1, reps: 5 }, 
+      ]);
 
   const handleSaveWorkout = async (workoutId: string) => { 
     const workoutToSave: Workout = selectedWorkouts.find((workout: Workout) => workout.id === workoutId)!;
@@ -58,6 +86,34 @@ const WorkoutPlanner: React.FC = () => {
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const deleteWorkout = (id: number) => {
+    setSelectedWorkouts(prevWorkouts => prevWorkouts.filter(workout => workout.id !== id));
+  };
+
+  const updateSets = (id: number, change: number) => {
+    setSelectedWorkouts(prevWorkouts =>
+      prevWorkouts.map(workout =>
+        workout.id === id ? { ...workout, sets: workout.sets + change } : workout
+      )
+    );
+  };
+
+  const updateReps = (id: number, reps: number) => {
+    setSelectedWorkouts(prevWorkouts =>
+      prevWorkouts.map(workout =>
+        workout.id === id ? { ...workout, reps } : workout
+      )
+    );
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const closeSelectedModal = () => {
+    setIsSelectedModalOpen(false);
   };
 
   return (
@@ -80,27 +136,101 @@ const WorkoutPlanner: React.FC = () => {
         </div>
       </div>
 
+      <div className='caption-container'>
+        <p>Can't find the body part you're wanting to workout? Search here instead:</p> 
+      </div>
+
+      <div className="search-bar-container">
+        <form onSubmit={handleSearchSubmit} className="search-form">
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            placeholder="Search for body part..."
+            className="search-bar"
+          />
+          <button type="submit" className="search-button">Search</button>
+        </form>
+      </div>
+
       {error && <div className="error">{error}</div>}
 
-      <div id="workout-list">
-        <h3>Workouts</h3>
-        {workouts.map((workout) => (
-          <div key={workout.id}>
-            {workout.name}
-            <button onClick={() => addToWorkout(workout)}>Add to Workout</button>
+      {isModalOpen && (
+        <div>
+          <div className="modal-overlay" onClick={closeModal}></div>
+          <div className="modal2">
+            <div className="modal2-content">
+              <button className="close-button2" onClick={closeModal}>X</button>
+              <h3>Workouts</h3>
+              {workouts.length > 0 ? (
+                workouts.map(workout => (
+                  <div key={workout.id}>
+                    {workout.name}
+                    <button
+                      className="add-to-workout-btn"
+                      onClick={() => {
+                        addToWorkout(workout);
+                        closeModal();
+                      }}
+                    >
+                      Add to Workout
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <p>Sorry, no exercises for this body part yet.</p>
+              )}
+            </div>
           </div>
-        ))}
-      </div>
+        </div>
+      )}
 
-      <div id="selected-workouts">
-        <h3>Selected Workouts</h3>
-        {selectedWorkouts.map((workout) => (
-          <div key={workout.id}>
-            {workout.name}
-            <button onClick={() => handleSaveWorkout(workout.id)}>Save Workout</button>
+      <button className="selected-workouts-button" onClick={() => setIsSelectedModalOpen(true)}>
+        View Selected Workouts
+      </button>
+
+      {isSelectedModalOpen && (
+        <div className="modal2">
+          <div className="modal2-content">
+            <button className="close-button2" onClick={closeSelectedModal}>X</button>
+            <h3>Selected Workouts</h3>
+            {selectedWorkouts.length > 0 ? (
+              selectedWorkouts.map(workout => (
+                <div key={workout.id} style={{ marginBottom: '10px' }}>
+                  <div>
+                    {workout.name} (Sets: {workout.sets}, Reps: {workout.reps})
+                    <button onClick={() => handleSaveWorkout(workout.id)}>Save Workout</button>
+                    <button style={{ marginLeft: '10px', color: 'red' }} onClick={() => deleteWorkout(workout.id)}>
+                      Delete
+                    </button>
+                  </div>
+                  <div>
+                    <span>Sets: </span>
+                    <button onClick={() => updateSets(workout.id, -1)}>-</button>
+                    <span style={{ margin: '0 10px' }}>{workout.sets}</span>
+                    <button onClick={() => updateSets(workout.id, 1)}>+</button>
+                  </div>
+                  <div>
+                    <span>Reps: </span>
+                    <select
+                      value={workout.reps}
+                      onChange={e => updateReps(workout.id, parseInt(e.target.value))}
+                    >
+                      {Array.from({ length: 20 }, (_, i) => (i + 1) * 5).map(value => (
+                        <option key={value} value={value}>
+                          {value}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p>No selected workouts yet.</p>
+            )}
           </div>
-        ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 };
