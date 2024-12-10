@@ -44,7 +44,7 @@ mutation SaveWorkout($workoutInput: WorkoutInput!) {
 
 export const DELETE_WORKOUT = gql`
   mutation DeleteWorkout($id: String!) {
-    deleteWorkout(id: $id) {
+    deleteWorkout(_id: $id) {
       id
       username
       email

@@ -29,7 +29,7 @@ const typeDefs = `
     createUser(username: String!, email: String!, password: String!): AuthPayload
     login(email: String!, password: String!): AuthPayload
     saveWorkout(workoutInput: WorkoutInput!): User
-    deleteWorkout(id: String!): User
+    deleteWorkout(_id: String!): User
   }
 
   input WorkoutInput {

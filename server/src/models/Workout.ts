@@ -5,7 +5,6 @@ export interface IWorkout extends Document {
   equipment: string;
   gifUrl: string;
   id: string;
-  _id:string;
   name: string;
   target: string;
 }
@@ -25,6 +24,7 @@ const workoutSchema = new Schema<IWorkout>({
   id: {
     type: String,
   },
+  
   name: {
     type: String,
   },

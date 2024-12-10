@@ -12,15 +12,15 @@ const SavedWorkouts = () => {
 
   const userData: User | undefined = data?.me;
 
-  const handleDeleteWorkout = async (id: string) => {
+  const handleDeleteWorkout = async (_id: string) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
     if (!token) {
       return false;
     }
-    console.log("Deleting workout with ID:", id);
+    console.log("Deleting workout with ID:", _id);
     try {
-      await deleteWorkout({ variables: { id } });
+      await deleteWorkout({ variables: { id:_id } });
     } catch (err) {
       console.error(err);
     }
@@ -55,7 +55,7 @@ const SavedWorkouts = () => {
                   <Card.Text>Equipment needed: {workout.equipment}</Card.Text>
                   <Button
                     className='btn-block btn-danger'
-                    onClick={() => handleDeleteWorkout(workout._id)}
+                    onClick={() => handleDeleteWorkout(workout.id)}
                   >
                     Delete this workout
                   </Button>

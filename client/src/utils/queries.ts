@@ -11,7 +11,6 @@ export const GET_ME = gql`
         equipment
         gifUrl
         id
-        _id
         name
         target
       }

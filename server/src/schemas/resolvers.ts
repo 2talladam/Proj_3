@@ -73,16 +73,16 @@ const resolvers: IResolvers = {
             return updatedUser;
         },
 
-        deleteWorkout: async (_: any, { id }: { id: string }, context: any) => {
+        deleteWorkout: async (_: any, { _id }: { _id: string }, context: any) => {
             if (!context.user) {
               throw new Error("Not authenticated");
             }
-          
+        console.log(context.user);
             // Pull the workout by its internal MongoDB `_id`
             const updatedUser = await User.findByIdAndUpdate(
-              context.user.id,
+              context.user._id,
               {
-                $pull: { savedWorkouts: { _id: id } }, 
+                $pull: { savedWorkouts: { id: {$eq:_id} } }, 
               },
               { new: true }
             );

@@ -3,7 +3,6 @@ export interface Workout {
   equipment: string;
   gifUrl: string;
   id: string;
-  _id:string;
   name: string;
   target: string;
 }
