@@ -12,6 +12,7 @@ body {
   display: flex;
   justify-content: flex-end;
   gap: 20px;
+  z-index: 1050;
 }
 nav a {
   text-decoration: none;
@@ -282,6 +283,24 @@ nav a {
   border-radius: 25px;
   cursor: pointer;
   font-size: 16px;
+}
+.save-workout-btn{
+  background-color:#013f38;
+  color:white;
+  border-color: transparent;
+  border-radius: 25px;
+}
+.save-workout-btn:hover{
+  background-color:#012e29
+}
+.delete-btn{
+  background-color:#013f38;
+  color:white;
+  border-color: transparent;
+  border-radius: 25px;
+}
+.delete-btn:hover{
+  background-color:#012e29
 }
 .add-to-workout-btn:hover{
   background-color: #012e29;

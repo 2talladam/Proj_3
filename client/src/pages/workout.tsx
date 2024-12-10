@@ -200,8 +200,8 @@ const WorkoutPlanner: React.FC = () => {
                 <div key={workout.id} style={{ marginBottom: '10px' }}>
                   <div>
                     {workout.name} (Sets: {workout.sets}, Reps: {workout.reps})
-                    <button onClick={() => handleSaveWorkout(workout.id)}>Save Workout</button>
-                    <button style={{ marginLeft: '10px', color: 'red' }} onClick={() => deleteWorkout(workout.id)}>
+                    <button className='save-workout-btn' onClick={() => handleSaveWorkout(workout.id)}>Save Workout</button>
+                    <button className='delete-btn' onClick={() => deleteWorkout(workout.id)}>
                       Delete
                     </button>
                   </div>

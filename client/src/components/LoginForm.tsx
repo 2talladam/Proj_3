@@ -7,7 +7,7 @@ import Auth from '../utils/auth';
 import type { User } from '../models/User';
 
 const LoginForm = ({ handleModalClose }: { handleModalClose: () => void }) => {
-  const [userFormData, setUserFormData] = useState<User>({ username: '', email: '', password: '', savedBooks: [] });
+  const [userFormData, setUserFormData] = useState<User>({ username: '', email: '', password: '', savedWorkouts: [] });
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
@@ -46,7 +46,7 @@ const LoginForm = ({ handleModalClose }: { handleModalClose: () => void }) => {
         variables: { email: userFormData.email, password: userFormData.password },
       });
       // Reset form data after successful login
-      setUserFormData({ username: '', email: '', password: '', savedBooks: [] });
+      setUserFormData({ username: '', email: '', password: '', savedWorkouts: [] });
     } catch (err) {
       console.error(err);
       setShowAlert(true); // Show alert on error
