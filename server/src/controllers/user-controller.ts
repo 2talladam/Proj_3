@@ -65,7 +65,7 @@ export const saveWorkout = async (req: Request, res: Response) => {
 export const deleteWorkout = async (req: Request, res: Response) => {
   const updatedUser = await User.findOneAndUpdate(
     { _id: req.user._id },
-    { $pull: { savedWorkouts: { workoutId: req.params.workoutId } } },
+    { $pull: { savedWorkouts: { id: req.params.workoutId } } },
     { new: true }
   );
   if (!updatedUser) {

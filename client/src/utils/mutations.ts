@@ -27,30 +27,30 @@ export const LOGIN = gql`
 `;
 
 
-export const SAVE_BOOK = gql`
-  mutation saveBook($bookInput: BookInput!) {
-    saveBook(bookInput: $bookInput) {
+export const SAVE_WORKOUT = gql`
+mutation SaveWorkout($workoutInput: WorkoutInput!) {
+  saveWorkout(workoutInput: $workoutInput) {
       id
       username
       email
-      savedBooks {
-        bookId
-        title
+      savedWorkouts {
+        id
+        name
       }
     }
   }
 `;
 
 
-export const DELETE_BOOK = gql`
-  mutation deleteBook($bookId: String!) {
-    deleteBook(bookId: $bookId) {
+export const DELETE_WORKOUT = gql`
+  mutation DeleteWorkout($id: String!) {
+    deleteWorkout(_id: $id) {
       id
       username
       email
-      savedBooks {
-        bookId
-        title
+      savedWorkouts {
+        id
+        name
       }
     }
   }

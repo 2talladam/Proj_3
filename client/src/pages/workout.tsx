@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
 import '../App.css';
+import { useMutation } from '@apollo/client'; 
+import { SAVE_WORKOUT } from '../utils/mutations'; 
+import { savedWorkoutIds, getSavedWorkoutIds } from '../utils/localStorage';
+import AuthService from '../utils/auth'; 
 
 type Workout = {
   id: number;
   name: string;
+  bodyPart: string;
+  equipment: string;
+  gifUrl: string;
   sets: number;
   reps: number;
 };
@@ -12,6 +19,7 @@ const WorkoutPlanner: React.FC = () => {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [selectedWorkouts, setSelectedWorkouts] = useState<Workout[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [saveWorkout] = useMutation(SAVE_WORKOUT);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false); 
   const [isSelectedModalOpen, setIsSelectedModalOpen] = useState<boolean>(false); 
   const [searchTerm, setSearchTerm] = useState<string>(''); 
@@ -53,11 +61,31 @@ const WorkoutPlanner: React.FC = () => {
   };
 
   const addToWorkout = (workout: Workout) => {
-    if (!selectedWorkouts.find(w => w.id === workout.id)) {
+
+    if (!selectedWorkouts.find((w) => w.id === workout.id)) {
       setSelectedWorkouts(prevWorkouts => [
         ...prevWorkouts,
         { ...workout, sets: 1, reps: 5 }, 
       ]);
+    }};
+
+  const handleSaveWorkout = async (workoutId: number) => { 
+    const workoutToSave: Workout = selectedWorkouts.find((workout: Workout) => workout.id === workoutId)!;
+    console.log(workoutToSave);
+    const token = AuthService.loggedIn() ? AuthService.getToken() : null;
+    if (!token) {
+      return false;
+    }
+    try {
+      const parsedWorkoutToSave = {id:workoutToSave.id, name:workoutToSave.name, bodyPart:workoutToSave.bodyPart, equipment:workoutToSave.equipment, gifUrl:workoutToSave.gifUrl}
+      await saveWorkout({
+        variables: { workoutInput: { ...parsedWorkoutToSave } },
+      });
+  
+      const saveWorkoutIds = getSavedWorkoutIds();
+      savedWorkoutIds([...saveWorkoutIds, workoutToSave.id]);
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -172,6 +200,7 @@ const WorkoutPlanner: React.FC = () => {
                 <div key={workout.id} style={{ marginBottom: '10px' }}>
                   <div>
                     {workout.name} (Sets: {workout.sets}, Reps: {workout.reps})
+                    <button onClick={() => handleSaveWorkout(workout.id)}>Save Workout</button>
                     <button style={{ marginLeft: '10px', color: 'red' }} onClick={() => deleteWorkout(workout.id)}>
                       Delete
                     </button>

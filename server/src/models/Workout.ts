@@ -24,6 +24,7 @@ const workoutSchema = new Schema<IWorkout>({
   id: {
     type: String,
   },
+  
   name: {
     type: String,
   },
