@@ -52,6 +52,8 @@ nav a {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  transform: translateY(-100px);
+
 }
 .neck-line {
   position: absolute;
@@ -302,7 +304,7 @@ nav a {
   justify-content: center; /* Centers horizontally */
   align-items: center; /* Centers vertically */
   position: absolute;
-  top: 755px; /* Adjust this value to move it higher or lower */
+  top: 750px; /* Adjust this value to move it higher or lower */
   width: 100%;
   z-index: 1; /* Ensures it's above other elements */
 }
