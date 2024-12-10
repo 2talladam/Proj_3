@@ -1,7 +1,6 @@
 import type { User } from '../models/User.js';
-import type { Book } from '../models/Workout.js';
+import type { Workout } from '../models/Workout.js';
 
-// route to get logged in user's info (needs the token)
 export const getMe = (token: string) => {
   return fetch('/api/users/me', {
     headers: {
@@ -31,30 +30,24 @@ export const loginUser = (userData: User) => {
   });
 };
 
-// save book data for a logged in user
-export const saveBook = (bookData: Book, token: string) => {
+// save workout for a logged in user
+export const saveWorkout = (workoutData: Workout, token: string) => {
   return fetch('/api/users', {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
       authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(bookData),
+    body: JSON.stringify(workoutData),
   });
 };
 
 // remove saved book data for a logged in user
-export const deleteBook = (bookId: string, token: string) => {
-  return fetch(`/api/users/books/${bookId}`, {
+export const deleteWorkout = (workoutId: string, token: string) => {
+  return fetch(`/api/users/workouts/${workoutId}`, {
     method: 'DELETE',
     headers: {
       authorization: `Bearer ${token}`,
     },
   });
-};
-
-// make a search to google books api
-// https://www.googleapis.com/books/v1/volumes?q=harry+potter
-export const searchGoogleBooks = (query: string) => {
-  return fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}`);
 };

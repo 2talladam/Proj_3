@@ -1,26 +1,26 @@
 import { useQuery, useMutation } from '@apollo/client';
 import { Container, Card, Button, Row, Col } from 'react-bootstrap';
 import { GET_ME } from '../utils/queries';
-import { DELETE_BOOK } from '../utils/mutations';
+import { DELETE_WORKOUT } from '../utils/mutations';
 import Auth from '../utils/auth';
 import type { User } from '../models/User';
 
-const SavedBooks = () => {
+const SavedWorkouts = () => {
   const { loading, error, data } = useQuery(GET_ME);
   console.log("Data from GET_ME:", data);
-  const [deleteBook] = useMutation(DELETE_BOOK);
+  const [deleteWorkout] = useMutation(DELETE_WORKOUT);
 
   const userData: User | undefined = data?.me;
 
-  const handleDeleteBook = async (bookId: string) => {
+  const handleDeleteWorkout = async (_id: string) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
 
     if (!token) {
       return false;
     }
-    console.log("Deleting book with ID:", bookId);
+    console.log("Deleting workout with ID:", _id);
     try {
-      await deleteBook({ variables: { bookId } });
+      await deleteWorkout({ variables: { id:_id } });
     } catch (err) {
       console.error(err);
     }
@@ -29,35 +29,35 @@ const SavedBooks = () => {
   if (loading) return <h2>Loading...</h2>;
   if (error) return <h2>Error: {error.message}</h2>;
 
+  // Filter out duplicates if needed
+  const uniqueWorkouts = Array.from(
+    new Map(userData?.savedWorkouts.map((workout) => [workout.id, workout])).values()
+  );
+
   return (
     <>
       <div className='text-light bg-dark p-5'>
         <Container>
-          <h1>Viewing {userData?.username}'s saved books!</h1>
+          <h1>Saved Workouts</h1>
         </Container>
       </div>
       <Container>
-        <h2 className='pt-5'>
-          {userData?.savedBooks.length
-            ? `Viewing ${userData.savedBooks.length} saved ${userData.savedBooks.length === 1 ? 'book' : 'books'}:`
-            : 'You have no saved books!'}
-        </h2>
         <Row>
-          {userData?.savedBooks.map((book) => (
-            <Col md='4' key={book.bookId}>
+          {uniqueWorkouts.map((workout) => (
+            <Col md='4' key={workout.id}>
               <Card border='dark'>
-                {book.image ? (
-                  <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' />
+                {workout.gifUrl ? (
+                  <Card.Img src={workout.gifUrl} alt={`The gif for ${workout.name}`} variant='top' />
                 ) : null}
                 <Card.Body>
-                  <Card.Title>{book.title}</Card.Title>
-                  <p className='small'>Authors: {book.authors.join(', ')}</p>
-                  <Card.Text>{book.description}</Card.Text>
+                  <Card.Title>{workout.name}</Card.Title>
+                  <p className='small'>Targets: {workout.bodyPart}</p>
+                  <Card.Text>Equipment needed: {workout.equipment}</Card.Text>
                   <Button
                     className='btn-block btn-danger'
-                    onClick={() => handleDeleteBook(book.bookId)}
+                    onClick={() => handleDeleteWorkout(workout.id)}
                   >
-                    Delete this Book!
+                    Delete this workout
                   </Button>
                 </Card.Body>
               </Card>
@@ -69,4 +69,4 @@ const SavedBooks = () => {
   );
 };
 
-export default SavedBooks;
+export default SavedWorkouts;

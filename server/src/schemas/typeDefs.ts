@@ -4,6 +4,7 @@ const typeDefs = `
     equipment: String!
     gifUrl: String!
     id: String!
+    _id: ID!
     name: String
     target: String
   }
@@ -28,16 +29,15 @@ const typeDefs = `
     createUser(username: String!, email: String!, password: String!): AuthPayload
     login(email: String!, password: String!): AuthPayload
     saveWorkout(workoutInput: WorkoutInput!): User
-    deleteWorkout(workoutId: String!): User
+    deleteWorkout(_id: String!): User
   }
 
   input WorkoutInput {
+    id: String!
+    name: String!
     bodyPart: String!
     equipment: String!
     gifUrl: String!
-    id: String!
-    name: String
-    target: String
   }
 `;
 

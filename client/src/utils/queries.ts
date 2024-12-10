@@ -6,28 +6,27 @@ export const GET_ME = gql`
       id
       username
       email
-      bookCount
-      savedBooks {
-        bookId
-        title
-        authors
-        description
-        image
-        link
+      savedWorkouts {
+        bodyPart
+        equipment
+        gifUrl
+        id
+        name
+        target
       }
     }
   }
 `;
 
-export const GET_BOOKS = gql`
-  query GetBooks {
-    books {
-      bookId
-      title
-      authors
-      description
-      image
-      link
+export const GET_WORKOUTS = gql`
+  query GetWorkouts {
+    workouts {
+        bodyPart
+        equipment
+        gifUrl
+        id
+        name
+        target
     }
   }
 `;
