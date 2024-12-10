@@ -6,7 +6,7 @@ import { savedWorkoutIds, getSavedWorkoutIds } from '../utils/localStorage';
 import AuthService from '../utils/auth'; 
 
 type Workout = {
-  id: string;
+  id: number;
   name: string;
   bodyPart: string;
   equipment: string;
@@ -67,8 +67,9 @@ const WorkoutPlanner: React.FC = () => {
         ...prevWorkouts,
         { ...workout, sets: 1, reps: 5 }, 
       ]);
+    }};
 
-  const handleSaveWorkout = async (workoutId: string) => { 
+  const handleSaveWorkout = async (workoutId: number) => { 
     const workoutToSave: Workout = selectedWorkouts.find((workout: Workout) => workout.id === workoutId)!;
     console.log(workoutToSave);
     const token = AuthService.loggedIn() ? AuthService.getToken() : null;
