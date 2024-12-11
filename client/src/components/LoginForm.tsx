@@ -7,7 +7,7 @@ import Auth from '../utils/auth';
 import type { User } from '../models/User';
 
 const LoginForm = ({ handleModalClose }: { handleModalClose: () => void }) => {
-  const [userFormData, setUserFormData] = useState<User>({ username: '', email: '', password: '', savedBooks: [] });
+  const [userFormData, setUserFormData] = useState<User>({ username: '', email: '', password: '', savedWorkouts: [] });
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 

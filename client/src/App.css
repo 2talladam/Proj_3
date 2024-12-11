@@ -12,6 +12,7 @@ body {
   display: flex;
   justify-content: flex-end;
   gap: 20px;
+  z-index: 1050;
 }
 nav a {
   text-decoration: none;
@@ -52,6 +53,8 @@ nav a {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  transform: translateY(-100px);
+
 }
 .neck-line {
   position: absolute;
@@ -281,6 +284,24 @@ nav a {
   cursor: pointer;
   font-size: 16px;
 }
+.save-workout-btn{
+  background-color:#013f38;
+  color:white;
+  border-color: transparent;
+  border-radius: 25px;
+}
+.save-workout-btn:hover{
+  background-color:#012e29
+}
+.delete-btn{
+  background-color:#013f38;
+  color:white;
+  border-color: transparent;
+  border-radius: 25px;
+}
+.delete-btn:hover{
+  background-color:#012e29
+}
 .add-to-workout-btn:hover{
   background-color: #012e29;
 }
@@ -302,7 +323,7 @@ nav a {
   justify-content: center; /* Centers horizontally */
   align-items: center; /* Centers vertically */
   position: absolute;
-  top: 755px; /* Adjust this value to move it higher or lower */
+  top: 750px; /* Adjust this value to move it higher or lower */
   width: 100%;
   z-index: 1; /* Ensures it's above other elements */
 }
