@@ -1,9 +1,10 @@
 import { useQuery, useMutation } from '@apollo/client';
-import { Container, Card, Button, Row, Col } from 'react-bootstrap';
+import { Container, Card, Button, Row, Col, ToastContainer } from 'react-bootstrap';
 import { GET_ME } from '../utils/queries';
 import { DELETE_WORKOUT } from '../utils/mutations';
 import Auth from '../utils/auth';
 import type { User } from '../models/User';
+import './SavedWorkouts.css';
 
 const SavedWorkouts = () => {
   const { loading, error, data } = useQuery(GET_ME);
@@ -36,16 +37,16 @@ const SavedWorkouts = () => {
 
   return (
     <>
-      <div className='text-light bg-dark p-5'>
-        <Container>
+      <div className="text-light bg-dark p-5">
+ 
           <h1>Saved Workouts</h1>
-        </Container>
+      
       </div>
       <Container>
         <Row>
           {uniqueWorkouts.map((workout) => (
             <Col md='4' key={workout.id}>
-              <Card border='dark'>
+              <Card id="saved-workout-card" border="dark">
                 {workout.gifUrl ? (
                   <Card.Img src={workout.gifUrl} alt={`The gif for ${workout.name}`} variant='top' />
                 ) : null}

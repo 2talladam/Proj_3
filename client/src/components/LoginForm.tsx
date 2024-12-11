@@ -46,7 +46,7 @@ const LoginForm = ({ handleModalClose }: { handleModalClose: () => void }) => {
         variables: { email: userFormData.email, password: userFormData.password },
       });
       // Reset form data after successful login
-      setUserFormData({ username: '', email: '', password: '', savedBooks: [] });
+      setUserFormData({ username: '', email: '', password: '', savedWorkouts: [] });
     } catch (err) {
       console.error(err);
       setShowAlert(true); // Show alert on error

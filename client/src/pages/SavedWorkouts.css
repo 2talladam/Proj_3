@@ -1,0 +1,128 @@
+/* General styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif !important;
+    color: #ffffff !important;
+  }
+  
+  /* Container styles */
+  .container {
+    display: flex !important; /* Use flexbox for centering */
+    flex-wrap: wrap !important;
+    justify-content: center !important; /* Center horizontally */
+    align-items: center !important; /* Center vertically */
+    min-height: 100vh !important; /* Full screen height for centering */
+    gap: 20px !important; /* Space between cards */
+    max-width: 1200px !important; /* Restrict container width */
+    margin: auto !important;
+    padding: 20px !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* Card styles */
+  #saved-workout-card {
+    display: flex !important; /* Ensure cards behave as flex containers */
+    flex-direction: column !important; /* Stack content inside cards vertically */
+    justify-content: space-between !important;
+    align-items: center !important;
+    border: 2px solid #ffffff !important;
+    background-color: #ffffff !important; /* White background */
+    color: #141451 !important; /* Dark text color */
+    border-radius: 10px !important;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3) !important;
+    transition: transform 0.2s ease-in-out !important;
+    max-width: 300px !important; /* Smaller card size */
+    min-width: 250px !important; /* Consistent minimum size */
+    height: 350px !important; /* Restrict height for smaller size */
+    margin: 10px !important;
+    padding: 20px !important; /* Ensure content fits inside */
+    box-sizing: border-box !important; /* Include padding in width/height */
+    overflow: hidden !important; /* Prevent content spilling */
+  }
+  
+  /* Card hover effect */
+  #saved-workout-card:hover {
+    transform: scale(1.05) !important;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.5) !important;
+  }
+
+/* Header container styles */
+#header-container {
+    padding: 10px 20px !important; /* Reduce padding for a smaller appearance */
+    text-align: center !important;
+    background-color: #313186 !important; /* Dark background */
+    color: #ffffff !important;
+    border-bottom: 2px solid #ffffff !important; /* Add a border to separate header */
+    margin-bottom: 20px !important; /* Space below header */
+    height: auto !important; /* Adjust height dynamically based on content */
+    max-height: 150px !important; /* Restrict maximum height */
+    width: 100% !important; /* Full width */
+    box-sizing: border-box !important; /* Include padding in height */
+}
+
+/* Header text */
+#header-container h1 {
+    font-size: 1.5rem !important; /* Smaller font size for the header text */
+    margin: 0 !important;
+    padding: 5px 0 !important; /* Reduce vertical padding */
+    line-height: 1.2 !important; /* Adjust line height for compact spacing */
+}
+
+
+  
+  
+  /* Card image */
+  #saved-workout-card img {
+    border-radius: 10px 10px 0 0 !important;
+    max-height: 150px !important; /* Smaller image size */
+    width: 100% !important;
+    object-fit: cover !important; /* Ensure GIFs are displayed correctly */
+  }
+  
+  /* Card body */
+  #saved-workout-card .card-body {
+    padding: 5px !important; /* Reduced padding for smaller size */
+    text-align: center !important; /* Center content */
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    height: auto !important;
+    width: 100% !important;
+    box-sizing: border-box !important; /* Include padding in width */
+  }
+  
+  /* Card title */
+  #saved-workout-card .card-title {
+    font-size: 1.25rem !important; /* Slightly smaller font */
+    font-weight: bold !important;
+    margin-bottom: 10px !important;
+    word-wrap: break-word !important; /* Prevent text overflow */
+  }
+  
+  /* Card text */
+  #saved-workout-card .card-text,
+  #saved-workout-card p.small {
+    margin-bottom: 10px !important; /* Reduced margin */
+    word-wrap: break-word !important; /* Prevent text overflow */
+  }
+  
+  /* Button styles */
+  #saved-workout-card .btn-block {
+    width: 100% !important;
+  }
+  
+  #saved-workout-card .btn-danger {
+    background-color: #d9534f !important;
+    border: none !important;
+    padding: 8px 12px !important; /* Reduced button size */
+    font-size: 0.9rem !important; /* Slightly smaller font */
+    font-weight: bold !important;
+    cursor: pointer !important;
+    transition: background-color 0.2s ease-in-out !important;
+  }
+  
+  #saved-workout-card .btn-danger:hover {
+    background-color: #c9302c !important;
+  }
+  
